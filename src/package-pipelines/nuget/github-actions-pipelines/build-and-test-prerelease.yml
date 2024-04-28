@@ -1,0 +1,37 @@
+name: Build & Test Backend for Development
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'test/**'
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: 'Your packages current version or 8.0'
+  SOLUTION_PATH: 'Your source solution file path'
+  TESTS_SOLUTION_PATH: 'Your tests solution file path'
+  PACKAGES_PATH: 'Packages path or simply src'
+
+jobs:
+  build_and_test:
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore ${{ env.SOLUTION_PATH }}
+
+      - name: Build
+        run: dotnet build ${{ env.SOLUTION_PATH }} --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test ${{ env.TESTS_SOLUTION_PATH }} --verbosity normal
