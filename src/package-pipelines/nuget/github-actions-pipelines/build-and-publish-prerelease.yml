@@ -125,20 +125,15 @@ jobs:
                   echo "Error: Package $PACKAGE_ID is invalid, because current alpha number is not one above the latest alpha number"
                   exit 1
                 fi
-              fi
-
               else
-
                 if [[ $MINOR -ne $((LATEST_MINOR + 1)) && $PATCH -ne $((LATEST_PATCH + 1)) ]]; then
                   echo "Error: Package $PACKAGE_ID is invalid, because either the minor or patch version is not one higher than the latest version"
                   exit 1
                 fi
-
                 if [[ $ALPHA_NUMBER -ne 0 ]]; then
                   echo "Error: Package $PACKAGE_ID is invalid, because current alpha number is not 0"
                   exit 1
                 fi
-
               fi
             else
               if [[ $MINOR -ne 0 || $PATCH -ne 0 || $ALPHA_NUMBER -ne 0 ]]; then
